@@ -36,7 +36,12 @@ public class CommuteServiceImpl implements CommuteService{
 		return commuteDAO.listRecord(map);
 	}
 	
-	/*Á¤¿¬´Ô*/
+	@Override
+	public int byeSuccess(String emp_id) {
+		return commuteDAO.byeSuccess(emp_id);
+	}	
+	
+	/*ì •ì—°ë‹˜*/
 	
 	@Override
 	public int goWorkCount() {
@@ -74,9 +79,9 @@ public class CommuteServiceImpl implements CommuteService{
 	public int thisMonthAbsent(String emp_id){
 		Calendar cal = Calendar.getInstance();
 		int absent=0;
-		int today = cal.get(Calendar.DATE); //¿À´Ã
-		int cntWknd= getCntWknd(today); //¿À´Ã±îÁö ÁÖ¸» ¼ö
-		int cntWork = commuteDAO.cntWdays(emp_id); //ÆòÀÏ ±Ù¹«ÀÏ¼ö
+		int today = cal.get(Calendar.DATE); //ì˜¤ëŠ˜
+		int cntWknd= getCntWknd(today); //ì˜¤ëŠ˜ê¹Œì§€ ì£¼ë§ ìˆ˜
+		int cntWork = commuteDAO.cntWdays(emp_id); //í‰ì¼ ê·¼ë¬´ì¼ìˆ˜
 		absent = today - (cntWknd + commuteDAO.thisMonthHoli(emp_id) + cntWork) ;
 		System.out.println(today);
 		System.out.println(cntWknd);
@@ -114,9 +119,9 @@ public class CommuteServiceImpl implements CommuteService{
 		Calendar cal = Calendar.getInstance();
 		int absent=0;
 		
-		int today = cal.get(Calendar.DATE); //¿À´Ã
-		int cntWknd= getCntWkndYear(today); //¿À´Ã±îÁö ÁÖ¸» ¼ö
-		int cntWork = commuteDAO.cntYdays(emp_id); //ÆòÀÏ ±Ù¹«ÀÏ¼ö
+		int today = cal.get(Calendar.DATE); //ì˜¤ëŠ˜
+		int cntWknd= getCntWkndYear(today); //ì˜¤ëŠ˜ê¹Œì§€ ì£¼ë§ ìˆ˜
+		int cntWork = commuteDAO.cntYdays(emp_id); //í‰ì¼ ê·¼ë¬´ì¼ìˆ˜
 		absent = cal.get(Calendar.DAY_OF_YEAR) - (cntWknd + commuteDAO.thisYearHoli(emp_id) + cntWork) ;
 
 		return absent;
@@ -127,7 +132,7 @@ public class CommuteServiceImpl implements CommuteService{
 		return commuteDAO.thisYearHoli(emp_id);
 	}
 
-	//ÀÌ¹ø ´Ş ÁÖ¸» ¼ö ±¸ÇÏ±â
+	//ì´ë²ˆ ë‹¬ ì£¼ë§ ìˆ˜ êµ¬í•˜ê¸°
 	public int getCntWknd(int today) {
 		Calendar cal = Calendar.getInstance();
 
@@ -138,7 +143,7 @@ public class CommuteServiceImpl implements CommuteService{
 		int cntWknd=0;
 		/*cal.getActualMaximum(Calendar.DAY_OF_MONTH);*/
 
-		//cntWknd ±¸ÇÏ±â (1~7 : ¿ù~ÀÏ)
+		//cntWknd êµ¬í•˜ê¸° (1~7 : ì›”~ì¼)
 		for(int i=1; i<=today; i++) {
 			cal.set(year, month, i);
 			int m = cal.get(Calendar.DAY_OF_WEEK);
@@ -149,7 +154,7 @@ public class CommuteServiceImpl implements CommuteService{
 		
 		return cntWknd;
 	}
-	//ÀÌ¹ø ³âµµ ÁÖ¸» ¼ö ±¸ÇÏ±â
+	//ì´ë²ˆ ë…„ë„ ì£¼ë§ ìˆ˜ êµ¬í•˜ê¸°
 	public int getCntWkndYear(int today) {
 		Calendar cal = Calendar.getInstance();
 
@@ -158,7 +163,7 @@ public class CommuteServiceImpl implements CommuteService{
 		int cntWknd=0;
 		/*cal.getActualMaximum(Calendar.DAY_OF_MONTH);*/
 
-		//cntWknd ±¸ÇÏ±â (1~7 : ¿ù~ÀÏ)
+		//cntWknd êµ¬í•˜ê¸° (1~7 : ì›”~ì¼)
 		for(int j=0; j<=month; j++) {
 			cal.set(year,j,1);
 			for(int i=1; i<=cal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
@@ -178,14 +183,14 @@ public class CommuteServiceImpl implements CommuteService{
 		//	public List<Attendance> allMemberCommute() {
 		List<HashMap<String, Object>> listById = commuteDAO.allMemberCommute();
 		Calendar cal = Calendar.getInstance();
-		//ÀÚ¹Ù-¼­ºñ½ºÅ¬·¡½º¿¡¼­ ÀÌ¹ø´ŞÀÇ ¸»ÀÏÀ» °¡Á®¿À´Â ÄÚµå¸¦ µû·Î Â¥½Ã°í, 
+		//ìë°”-ì„œë¹„ìŠ¤í´ë˜ìŠ¤ì—ì„œ ì´ë²ˆë‹¬ì˜ ë§ì¼ì„ ê°€ì ¸ì˜¤ëŠ” ì½”ë“œë¥¼ ë”°ë¡œ ì§œì‹œê³ , 
 		int today = cal.get(Calendar.DATE);
 		int cntWknd= getCntWknd(today);
 
 
-		//»ç¹ø¿¡ µû¸¥ ÆòÀÏ ±Ù¹«ÀÏ¼ö ±¸ÇÏ±â 
+		//ì‚¬ë²ˆì— ë”°ë¥¸ í‰ì¼ ê·¼ë¬´ì¼ìˆ˜ êµ¬í•˜ê¸° 
 		List<Integer> list = commuteDAO.cntWork();
-		//today - cntWknd - ÈŞ°¡ÀÏ¼ö - ±Ù¹«ÀÏ¼ö(ÁÖ¸»±Ù¹«X)
+		//today - cntWknd - íœ´ê°€ì¼ìˆ˜ - ê·¼ë¬´ì¼ìˆ˜(ì£¼ë§ê·¼ë¬´X)
 		for(int i=0; i<listById.size(); i++) {
 			long h=0;
 			if(listById.get(i).get("holiday")!=null)
