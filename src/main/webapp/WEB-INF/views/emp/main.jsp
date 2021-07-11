@@ -28,8 +28,7 @@
 						<button class="hi-button" id="hi" type="submit">출&nbsp;근</button>
 					</form>
 				</c:when>
-				<c:when
-					test="${work_day!=null}">
+				<c:when test="${work_day!=null}">
 					<button type="button" id="attendFail" class="hi-button">출&nbsp;근</button>
 				</c:when>				
 			</c:choose>
