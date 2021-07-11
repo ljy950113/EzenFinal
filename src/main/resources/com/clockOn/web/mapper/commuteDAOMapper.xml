@@ -18,12 +18,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	 <!-- 출근 처리 이후 재 출근 못하게 -->
-   <select id="work_day" parameterType="String" resultType="String">
-    <![CDATA[   
-      select work_day from working_atti where work_day = curdate() and emp_id=#{emp_id}
-   ]]>
-   </select>
-   	
+   	<select id="work_day" parameterType="String" resultType="String">
+    		<![CDATA[   
+     		select work_day from working_atti where work_day = curdate() and emp_id=#{emp_id}
+   		]]>
+   	</select>
+
+	<select id="goWorkCount" resultType="int">
+		select count(WORK_RID) from working_atti where work_day=curdate()
+	</select>
+
+	<select id="notWorkCount" resultType="int">
+		select count(WORK_RID) from working_atti where (select count(emp_id) from employee) - (select count(WORK_RID) from working_atti where work_day=curdate())
+	</select>
+
+	<select id="holidayCount" resultType="int">
+		select count(work_rid) from working_atti where holi_code is not null and work_day=curdate()
+	</select>
+
+	<select id="lateCount" resultType="int">
+		select count(work_rid) from working_atti where work_late = "1" and work_day=curdate()
+	</select>
+	
    	<!--List<Commute> -->
 	<select id="listRecord" parameterType="Map"	resultType="com.clockOn.web.entity.commute.Commute">
 		select work_rid, work_day, work_in, work_out, work_late, holi_code, work_comm
@@ -34,21 +50,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 정연님 -->
-	<select id="goWorkCount" resultType="int">
-		select * from go_work
-	</select>
-
-	<select id="notWorkCount" resultType="int">
-		select * from not_work_count
-	</select>
-
-	<select id="holidayCount" resultType="int">
-		select * from holidayCount
-	</select>
-
-	<select id="lateCount" resultType="int">
-		select * from lateCount
-	</select>
 
 	<!-- 자신의 해당 월 출근 기록 확인 -->
 	<select id="thisMonthWork" parameterType="String" resultType="int">
