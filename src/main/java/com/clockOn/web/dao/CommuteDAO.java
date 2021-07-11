@@ -7,44 +7,46 @@ import java.util.Map;
 import com.clockOn.web.entity.commute.Commute;
 
 public interface CommuteDAO {
-	// Ãâ±Ù Âï±â
+	// ì¶œê·¼ ì°ê¸°
 	public int hiSuccess(String emp_id);
-	// Ãâ±Ù¹öÆ° Ã³¸®
+	// í‡´ê·¼ ì°ê¸°
+	public int byeSuccess(String emp_id);
+	// ì¶œê·¼ë²„íŠ¼ ì²˜ë¦¬
 	public String work_day(String emp_id);
-	// ÀÚ½ÅÀÇ ÃâÅğ±Ù µ¥ÀÌÅÍ °¡Á®¿À±â
+	// ìì‹ ì˜ ì¶œí‡´ê·¼ ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
 	public List<Commute> listRecord(Map<String, String> map);
-	/*Á¤¿¬´Ô*/
-	// Ãâ±Ù ÀÎ¿ø Ä«¿îÆ®
+	/*ì •ì—°ë‹˜*/
+	// ì¶œê·¼ ì¸ì› ì¹´ìš´íŠ¸
 	public int goWorkCount();
-	// ¹ÌÃâ±Ù ÀÎ¿ø Ä«¿îÆ®
+	// ë¯¸ì¶œê·¼ ì¸ì› ì¹´ìš´íŠ¸
 	public int notWorkCount();
-	// ÈŞ°¡ ÀÎ¿ø Ä«¿îÆ®
+	// íœ´ê°€ ì¸ì› ì¹´ìš´íŠ¸
 	public int holidayCount();
-	// Áö°¢ ÀÎ¿ø Ä«¿îÆ®
+	// ì§€ê° ì¸ì› ì¹´ìš´íŠ¸
 	public int lateCount();
-	// ÀÚ½ÅÀÇ ÇØ´ç ¿ù Ãâ±Ù ±â·Ï È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ì›” ì¶œê·¼ ê¸°ë¡ í™•ì¸
 	public int thisMonthWork(String emp_id);
-	// ÀÚ½ÅÀÇ ÇØ´ç ¿ù Áö°¢ ±â·Ï È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ì›” ì§€ê° ê¸°ë¡ í™•ì¸
 	public int thisMonthLate(String emp_id);
-	// ÀÚ½ÅÀÇ ÇØ´ç ¿ù ÈŞ¹« ±â·Ï È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ì›” íœ´ë¬´ ê¸°ë¡ í™•ì¸
 	public int thisMonthHoli(String emp_id);
-	// ÀÚ½ÅÀÇ ÇØ´ç ¿ù ±Ù¹« ½Ã°£ È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ì›” ê·¼ë¬´ ì‹œê°„ í™•ì¸
 	public int thisMonthTime(String emp_id);
-	// ÀÚ½ÅÀÇ ÇØ´ç ³âµµ Ãâ±Ù ±â·Ï È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ë…„ë„ ì¶œê·¼ ê¸°ë¡ í™•ì¸
 	public int thisYearWork(String emp_id);
-	// ÀÚ½ÅÀÇ ÇØ´ç ³âµµ Áö°¢ ±â·Ï È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ë…„ë„ ì§€ê° ê¸°ë¡ í™•ì¸
 	public int thisYearLate(String emp_id);
-	// ÀÚ½ÅÀÇ ÇØ´ç ³âµµ ÈŞ¹« ±â·Ï È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ë…„ë„ íœ´ë¬´ ê¸°ë¡ í™•ì¸
 	public int thisYearHoli(String emp_id);
-	// ÀÚ½ÅÀÇ ÇØ´ç ³âµµ ±Ù¹« ½Ã°£ È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ë…„ë„ ê·¼ë¬´ ì‹œê°„ í™•ì¸
 	public int thisYearTime(String emp_id);
-	// ¸ğµç Á÷¿øÀÇ ±ÙÅÂ±â·Ï Á¶È¸
+	// ëª¨ë“  ì§ì›ì˜ ê·¼íƒœê¸°ë¡ ì¡°íšŒ
 	public List<HashMap<String, Object>> allMemberCommute();
 	//public List<Attendance> allMemberCommute(List<String> list);
 	public List<Integer> cntWork();
-	// ÀÚ½ÅÀÇ ÇØ´ç ¿ù ÆòÀÏ ±Ù¹«ÀÏ¼ö È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ì›” í‰ì¼ ê·¼ë¬´ì¼ìˆ˜ í™•ì¸
 	public int cntWdays(String emp_id);
-	// ÀÚ½ÅÀÇ ÇØ´ç ³âµµ ±Ù¹«ÀÏ¼ö È®ÀÎ
+	// ìì‹ ì˜ í•´ë‹¹ ë…„ë„ ê·¼ë¬´ì¼ìˆ˜ í™•ì¸
 	public int cntYdays(String emp_id);
 	
 }
