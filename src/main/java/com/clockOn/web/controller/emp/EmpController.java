@@ -49,6 +49,12 @@ public class EmpController {
 	@GetMapping("main")
 	public String emp_main(Principal principal, HttpSession session, Model model) {
 		String username = principal.getName();
+		
+		model.addAttribute("thisMonthCount", commuteService.thisMonthWork(username));
+		model.addAttribute("thisMonthLate", commuteService.thisMonthLate(username));
+		model.addAttribute("work_day", commuteService.work_day(username));
+		System.out.println(username);
+		
 		/*
 		 * model.addAttribute("thisMonthCount",commuteService.thisMonthWork(username));
 		 * model.addAttribute("thisMonthLate", commuteService.thisMonthLate(username));
@@ -74,33 +80,33 @@ public class EmpController {
 		return "emp.main";
 	}
 	
-	@GetMapping("infoUpdate") //º¸¿©ÁÙ ¶§
+	@GetMapping("infoUpdate") //ë³´ì—¬ì¤„ ë•Œ
 	public String infoUpdate(String emp_id, Model model) {
 		model.addAttribute("updateProfile", memberService.profile(emp_id));
 		return "emp.infoUpdate";
 	}
 	
-	@PostMapping("infoUpdate") //Ã³¸®ÇÒ ¶§ (form action) 
+	@PostMapping("infoUpdate") //ì²˜ë¦¬í•  ë•Œ (form action) 
 	public String infoUpdate(String emp_id, String emp_pw, String emp_email, String emp_tel, MultipartFile emp_pic) throws IllegalStateException, IOException {
-		//null°ªÀÌ Çã¿ëµÈ´Ù¸é MemberDAOMapper.xml > µ¿ÀûÄõ¸®·Î ¸¸µé¾î¾ß
+		//nullê°’ì´ í—ˆìš©ëœë‹¤ë©´ MemberDAOMapper.xml > ë™ì ì¿¼ë¦¬ë¡œ ë§Œë“¤ì–´ì•¼
 		String fileName = emp_pic.getOriginalFilename();
 		if(fileName !=null && fileName !="") {
-		//ÆÄÀÏ¾÷·Îµå
+		//íŒŒì¼ì—…ë¡œë“œ
 			String webPath = "/static/upload";
 			String realPath = ctx.getRealPath(webPath);
 			File savePath = new File(realPath);
-			System.out.println("ÀúÀå°æ·Î2" + savePath);
+			System.out.println("ì €ì¥ê²½ë¡œ2" + savePath);
 			if (!savePath.exists())
 				savePath.mkdirs();
 			realPath += File.separator + fileName;
 			File saveFile = new File(realPath);
-			System.out.println("ÀúÀå°æ·Î1" + realPath);
+			System.out.println("ì €ì¥ê²½ë¡œ1" + realPath);
 			emp_pic.transferTo(saveFile);
 		}
 		
 		MemberProfile memberProfile = new MemberProfile(emp_id, emp_pw, emp_email, emp_tel, fileName);
 		
-		System.out.println("¼öÁ¤µÈ ·¹ÄÚµå ¼ö:" + memberService.infoUpdate(memberProfile));
+		System.out.println("ìˆ˜ì •ëœ ë ˆì½”ë“œ ìˆ˜:" + memberService.infoUpdate(memberProfile));
 		
 		return "emp.main"; 
 
@@ -114,7 +120,7 @@ public class EmpController {
 		response.sendRedirect("/emp/main");
 	}
 
-	@GetMapping("calendar") // º¸¿©ÁÙ ¶§
+	@GetMapping("calendar") // ë³´ì—¬ì¤„ ë•Œ
 	public String calendar() {
 		return "emp.timeRecord.byCalendar";
 	}
