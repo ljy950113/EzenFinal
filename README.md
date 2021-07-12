@@ -24,5 +24,6 @@
   - Lombok
   - HikariCP
   - Jackson
+  - Spring Security
   
   
